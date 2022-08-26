@@ -2,14 +2,13 @@
 #include <stdlib.h>
 
 int allocate_array(int ***object, size_t len) {
-    int **array = malloc(len * sizeof(size_t));
+    int **array = calloc(len, sizeof(size_t));
 
     if (array == NULL) {
         goto free_array;
     }
 
-    size_t idx = 0;
-    for (idx=0; idx<len; idx++) {
+    for (size_t idx=0; idx<len; idx++) {
         array[idx] = malloc(sizeof(int));
         if (array[idx] == NULL) {
             goto erase_array;
@@ -22,7 +21,7 @@ int allocate_array(int ***object, size_t len) {
     return 1;
 
 erase_array:
-    for (size_t i=0; i<idx-1; i++) {
+    for (size_t i=0; i<len; i++) {
         free(array[i]);
     }
 free_array:
